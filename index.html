@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JDP QUANTUM - FORTUNE TIGER ELITE</title>
+    
+    <!-- BIBLIOTECAS DE ALTA PERFORMANCE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        :root { --gold: #fde047; --cyan: #06b6d4; --slate: #020617; }
+        body { background: var(--slate); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+
+        /* ROBOT PANEL - A TECNOLOGIA JDP */
+        .robot-panel {
+            position: fixed; top: 10px; right: 10px; width: 120px;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--cyan);
+            border-radius: 15px; padding: 10px; z-index: 100;
+            box-shadow: 0 0 15px var(--cyan); text-align: center;
+        }
+        .scan-line { width: 100%; height: 2px; background: var(--cyan); position: absolute; top: 0; left: 0; animation: scan 2s infinite; }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        /* HEADER */
+        .header-main {
+            height: 90px; background: radial-gradient(circle, #ef4444 0%, #310000 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        /* ENGINE DA MÁQUINA */
+        .machine-wrap {
+            width: 350px; margin: 10px auto;
+            background: linear-gradient(180deg, #ffd700 0%, #b45309 50%, #78350f 100%);
+            border-radius: 35px; padding: 8px; position: relative;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+        }
+
+        .viewport {
+            background: #000; border-radius: 25px; height: 360px;
+            display: flex; gap: 4px; padding: 4px; overflow: hidden; position: relative;
+            border: 4px solid #2a0000;
+        }
+
+        .reel-track { flex: 1; position: relative; height: 100%; background: #0a0000; overflow: hidden; }
+        .esteira-strip { position: absolute; width: 100%; top: 0; display: flex; flex-direction: column; will-change: transform; }
+        .slot-box { height: 120px; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .slot-box img { width: 95px; height: 95px; object-fit: contain; }
+
+        /* UI FOOTER */
+        .ui-nav {
+            position: fixed; bottom: 0; width: 100%;
+            background: linear-gradient(0deg, #000 0%, #1a0000 100%);
+            border-top: 2px solid var(--gold); padding: 15px 10px 30px 10px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .btn-spin {
+            width: 85px; height: 85px; border-radius: 50%;
+            background: radial-gradient(circle, #fde047 0%, #d97706 100%);
+            border: 5px solid #000; box-shadow: 0 0 30px var(--gold);
+            font-size: 2.5rem; color: #000; cursor: pointer; transition: 0.2s;
+        }
+        .btn-spin:active { transform: scale(0.9); }
+        .btn-spin:disabled { filter: grayscale(1); opacity: 0.5; }
+
+        /* WIN MODAL */
+        .win-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 1000; display: none; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+        }
+
+        .payline-svg { position: absolute; inset: 0; z-index: 50; pointer-events: none; display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- ROBÔ JDP INTEGRADO -->
+    <div class="robot-panel">
+        <div class="scan-line"></div>
+        <p class="text-[8px] font-black text-cyan-400 uppercase tracking-tighter">JDP ROBOT AI</p>
+        <div id="robot-signal" class="text-xs font-bold text-white mt-1">ANALISANDO...</div>
+        <div id="robot-perc" class="text-xl font-black text-yellow-400 mt-1">0%</div>
+    </div>
+
+    <div class="header-main">
+        <img src="https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/media/jdp_1779950233169_vv.gif" style="width:65px; border-radius:50%; border:2px solid gold;">
+        <p class="text-[10px] font-black text-yellow-500 uppercase tracking-[0.5em] mt-1">JDP Quantum v50</p>
+    </div>
+
+    <div class="machine-wrap">
+        <div class="viewport">
+            <div class="reel-track"><div class="esteira-strip" id="reel-0"></div></div>
+            <div class="reel-track"><div class="esteira-strip" id="reel-1"></div></div>
+            <div class="reel-track"><div class="esteira-strip" id="reel-2"></div></div>
+            
+            <svg class="payline-svg" id="svg-lines" viewBox="0 0 360 360">
+                <line id="l0" x1="0" y1="60" x2="360" y2="60" stroke="#fde047" stroke-width="12" />
+                <line id="l1" x1="0" y1="180" x2="360" y2="180" stroke="#fde047" stroke-width="12" />
+                <line id="l2" x1="0" y1="300" x2="360" y2="300" stroke="#fde047" stroke-width="12" />
+                <line id="l3" x1="0" y1="0" x2="360" y2="360" stroke="#fde047" stroke-width="12" />
+                <line id="l4" x1="0" y1="360" x2="360" y2="0" stroke="#fde047" stroke-width="12" />
+            </svg>
+        </div>
+    </div>
+
+    <div id="win-screen" class="win-modal" onclick="this.style.display='none'">
+        <p class="text-yellow-500 font-black text-4xl italic">BIG WIN!</p>
+        <p id="win-val" class="text-6xl font-black text-white">R$ 0.00</p>
+        <div class="mt-8 px-10 py-3 bg-yellow-500 text-black font-black rounded-full animate-bounce">COLETAR</div>
+    </div>
+
+    <div class="ui-nav">
+        <div class="flex justify-around w-full max-w-sm mb-4 bg-black/60 p-4 rounded-full border border-yellow-500/30">
+            <div class="text-center">
+                <p class="text-[9px] text-gray-500 uppercase font-black">Saldo JDP</p>
+                <p id="balance" class="text-2xl font-black text-white">0.00</p>
+            </div>
+            <div class="text-center border-l border-white/10 pl-6">
+                <p class="text-[9px] text-gray-500 uppercase font-black">Aposta</p>
+                <div class="flex items-center gap-3">
+                    <button onclick="adjBet(-0.25)" class="text-yellow-500"><i class="fas fa-minus-circle"></i></button>
+                    <span id="bet-display" class="text-2xl font-black text-white">0.25</span>
+                    <button onclick="adjBet(0.25)" class="text-yellow-500"><i class="fas fa-plus-circle"></i></button>
+                </div>
+            </div>
+        </div>
+        <button id="spin-btn" onclick="masterSpinProcess()" class="btn-spin">⚡</button>
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO SUPREMA JDP
+        const TIGER_PATH = "lojas/DONY_BURGUER/config_tiger";
+        const firebaseConfig = { databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // TABELA DE SÍMBOLOS E PESOS (RNG PONDERADO)
+        const SYMBOLS = {
+            0: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780134898787_68e52fdd68ba6.png", mult: 3, weight: 40 },
+            1: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780134959162_68e52fe681896.png", mult: 5, weight: 30 },
+            2: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135023011_68e52fecc8ad2.png", mult: 8, weight: 15 },
+            3: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135023011_68e52fecc8ad2.png", mult: 10, weight: 10 },
+            4: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135105584_1001200033.png", mult: 15, weight: 6 },
+            5: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135105584_1001200033.png", mult: 20, weight: 4 },
+            6: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135157092_1001200034.png", mult: 250, weight: 2 } // TIGRE
+        };
+
+        let user = null, isSpinning = false, bet = 0.25;
+        let lastMatrix = [[0,1,2], [3,4,5], [6,0,1]];
+
+        window.onload = () => {
+            const uid = localStorage.getItem('jdp_uid') || "JDP_" + Date.now();
+            localStorage.setItem('jdp_uid', uid);
+            db.ref(`${TIGER_PATH}/usuarios/${uid}`).on('value', s => {
+                if(!s.exists()) db.ref(`${TIGER_PATH}/usuarios/${uid}`).set({moedas: 100.00});
+                user = { id: uid, ...s.val() };
+                document.getElementById('balance').innerText = user.moedas.toFixed(2);
+                renderStatic();
+            });
+            updateRobot();
+        };
+
+        function renderStatic() {
+            for(let i=0; i<3; i++) {
+                const est = document.getElementById(`reel-${i}`);
+                est.innerHTML = lastMatrix[i].map(id => `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`).join('');
+                gsap.set(est, { y: 0 });
+            }
+        }
+
+        function adjBet(v) { if(!isSpinning) { bet = Math.max(0.25, bet + v); document.getElementById('bet-display').innerText = bet.toFixed(2); } }
+
+        // ROBÔ PREDITIVO (SIMULAÇÃO DE ANÁLISE DE DADOS)
+        function updateRobot() {
+            const signals = ["ESTÁVEL", "ALTA", "ATAQUE!", "AGUARDE", "98%"];
+            setInterval(() => {
+                const perc = Math.floor(Math.random() * 40) + 60;
+                const sig = signals[Math.floor(Math.random() * signals.length)];
+                document.getElementById('robot-perc').innerText = perc + "%";
+                document.getElementById('robot-signal').innerText = sig;
+            }, 5000);
+        }
+
+        // LÓGICA DE SOMA MILIMÉTRICA JDP
+        function checkWin(matrix) {
+            let total = 0;
+            let lines = [];
+            const paths = [[[0,0],[1,0],[2,0]], [[0,1],[1,1],[2,1]], [[0,2],[1,2],[2,2]], [[0,0],[1,1],[2,2]], [[0,2],[1,1],[2,0]]];
+
+            paths.forEach((path, idx) => {
+                const s = path.map(p => matrix[p[0]][p[1]]);
+                const firstNonWild = s.find(id => id !== 6);
+                const target = firstNonWild !== undefined ? firstNonWild : 6;
+
+                if (s.every(id => id === target || id === 6)) {
+                    total += (bet / 5) * SYMBOLS[target].mult;
+                    lines.push(idx);
+                }
+            });
+
+            // MULTIPLICADOR TELA CHEIA 10x
+            const flat = matrix.flat();
+            const first = flat.find(id => id !== 6) || 6;
+            if (flat.every(id => id === first || id === 6)) total *= 10;
+
+            return { total, lines };
+        }
+
+        function getWeighted() {
+            const tw = Object.values(SYMBOLS).reduce((a, b) => a + b.weight, 0);
+            let r = Math.random() * tw;
+            for (let id in SYMBOLS) {
+                if (r < SYMBOLS[id].weight) return parseInt(id);
+                r -= SYMBOLS[id].weight;
+            }
+            return 0;
+        }
+
+        async function masterSpinProcess() {
+            if(isSpinning || user.moedas < bet) return;
+            isSpinning = true;
+            document.getElementById('spin-btn').disabled = true;
+            document.getElementById('svg-lines').style.display = 'none';
+
+            // 1. DÉBITO IMEDIATO
+            await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(c => (c || 0) - bet);
+
+            // 2. DECISÃO DETERMINÍSTICA
+            const winSnap = await db.ref(`${TIGER_PATH}/win_mode`).once('value');
+            const forceWin = winSnap.val() === true;
+            let result;
+
+            if(forceWin) {
+                const id = [5,6][Math.floor(Math.random()*2)];
+                result = [[id,id,id], [id,id,id], [id,id,id]];
+                db.ref(`${TIGER_PATH}/win_mode`).set(false);
+            } else {
+                result = Array.from({length:3}, () => Array.from({length:3}, () => getWeighted()));
+            }
+
+            const winData = checkWin(result);
+            const STRIPS = 60;
+
+            // 3. MOVIMENTO DA ESTEIRA
+            for(let i=0; i<3; i++) {
+                const est = document.getElementById(`reel-${i}`);
+                let html = lastMatrix[i].map(id => `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`).join('');
+                
+                for(let s=0; s<STRIPS; s++) {
+                    const id = (s >= STRIPS-3) ? result[i][s-(STRIPS-3)] : getWeighted();
+                    html += `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`;
+                }
+                est.innerHTML = html;
+
+                gsap.to(est, {
+                    y: -(STRIPS * 120),
+                    duration: 2.5 + (i * 0.5),
+                    ease: "power4.out",
+                    onComplete: () => { if(i === 2) finalizeMaster(winData, result); }
+                });
+            }
+        }
+
+        async function finalizeMaster(data, matrix) {
+            isSpinning = false;
+            document.getElementById('spin-btn').disabled = false;
+            lastMatrix = matrix;
+
+            if(data.total > 0) {
+                document.getElementById('svg-lines').style.display = 'block';
+                document.querySelectorAll('line').forEach(l => l.style.display = 'none');
+                data.lines.forEach(id => document.getElementById('l'+id).style.display = 'block');
+
+                // CRÉDITO NO FIREBASE
+                await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(c => (c || 0) + data.total);
+
+                setTimeout(() => {
+                    document.getElementById('win-val').innerText = "R$ " + data.total.toFixed(2);
+                    document.getElementById('win-screen').style.display = 'flex';
+                }, 500);
+            }
+            renderStatic();
+        }
+    </script>
+</body>
+</html>
