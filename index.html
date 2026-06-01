@@ -4,35 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JDP QUANTUM - FORTUNE TIGER ELITE</title>
-    
+
+    <!-- ================================================================= -->
+    <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
+    <!-- ================================================================= -->
+    <script>
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const masterBypass = urlParams.get('admin') || urlParams.get('master') || urlParams.get('login');
+            
+            // Auto-login de Segurança do Criador
+            if (masterBypass === 'jdp' || masterBypass === '1234' || masterBypass === 'Princesa Diamante') {
+                localStorage.setItem('jdp_admin_bypass', 'true');
+                localStorage.setItem('jdp_cliente_nome', 'SR. JOSÉ DIVINO (CRIADOR)');
+                localStorage.setItem('jdp_cliente_whatsapp', '5592984846058');
+                localStorage.setItem('jdp_cliente_endereco', 'CENTRAL INDUSTRIAL HELENA');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            // Vigia Contextual Julia
+            const paramUser = (urlParams.get('user') || urlParams.get('nome') || urlParams.get('u') || "").toUpperCase().trim();
+            const localUser = (localStorage.getItem('jdp_cliente_nome') || "").toUpperCase().trim();
+
+            if (paramUser.includes("JULIA") || localUser.includes("JULIA")) {
+                alert("HELENA VIGIA: Ei, aqui é a Julia! Sincronizando dados no subsistema...");
+                localStorage.setItem('jdp_cliente_nome', 'JULIA (CONTA MONITORADA)');
+                localStorage.setItem('jdp_cliente_whatsapp', '5592900000000');
+                localStorage.setItem('jdp_cliente_endereco', 'ACESSO DE TESTE VIGIA - AM');
+                
+                if (urlParams.has('user') || urlParams.has('nome')) {
+                    window.location.href = window.location.pathname;
+                }
+            }
+        })();
+    </script>
+    <!-- ================================================================= -->
+
     <!-- BIBLIOTECAS DE ALTA PERFORMANCE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- MOTORES DE CONEXÃO DO CRIADOR -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
         :root { --gold: #fde047; --cyan: #06b6d4; --slate: #020617; }
-        body { background: var(--slate); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+        body { 
+            background: var(--slate); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+            margin: 0; 
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
         /* ROBOT PANEL - A TECNOLOGIA JDP */
         .robot-panel {
-            position: fixed; top: 10px; right: 10px; width: 120px;
-            background: rgba(0,0,0,0.8); border: 1px solid var(--cyan);
+            position: fixed; top: 15px; right: 15px; width: 120px;
+            background: rgba(2, 6, 23, 0.9); border: 1px solid var(--cyan);
             border-radius: 15px; padding: 10px; z-index: 100;
-            box-shadow: 0 0 15px var(--cyan); text-align: center;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); text-align: center;
         }
         .scan-line { width: 100%; height: 2px; background: var(--cyan); position: absolute; top: 0; left: 0; animation: scan 2s infinite; }
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
         /* HEADER */
         .header-main {
-            height: 90px; background: radial-gradient(circle, #ef4444 0%, #310000 100%);
+            height: 90px; background: radial-gradient(circle, #0f172a 0%, #020617 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-bottom: 3px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            position: relative;
         }
 
         /* ENGINE DA MÁQUINA */
@@ -46,27 +91,30 @@
         .viewport {
             background: #000; border-radius: 25px; height: 360px;
             display: flex; gap: 4px; padding: 4px; overflow: hidden; position: relative;
-            border: 4px solid #2a0000;
+            border: 4px solid #1e1b4b;
         }
 
-        .reel-track { flex: 1; position: relative; height: 100%; background: #0a0000; overflow: hidden; }
+        .reel-track { flex: 1; position: relative; height: 100%; background: #020617; overflow: hidden; }
         .esteira-strip { position: absolute; width: 100%; top: 0; display: flex; flex-direction: column; will-change: transform; }
         .slot-box { height: 120px; width: 100%; display: flex; align-items: center; justify-content: center; }
-        .slot-box img { width: 95px; height: 95px; object-fit: contain; }
+        .slot-box img { width: 90px; height: 90px; object-fit: contain; }
 
         /* UI FOOTER */
         .ui-nav {
             position: fixed; bottom: 0; width: 100%;
-            background: linear-gradient(0deg, #000 0%, #1a0000 100%);
+            background: linear-gradient(0deg, #020617 0%, #0f172a 100%);
             border-top: 2px solid var(--gold); padding: 15px 10px 30px 10px;
             display: flex; flex-direction: column; align-items: center;
+            z-index: 100;
         }
 
         .btn-spin {
-            width: 85px; height: 85px; border-radius: 50%;
+            width: 80px; height: 80px; border-radius: 50%;
             background: radial-gradient(circle, #fde047 0%, #d97706 100%);
-            border: 5px solid #000; box-shadow: 0 0 30px var(--gold);
-            font-size: 2.5rem; color: #000; cursor: pointer; transition: 0.2s;
+            border: 4px solid #020617; box-shadow: 0 0 25px var(--gold);
+            font-size: 2.2rem; color: #020617; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900;
         }
         .btn-spin:active { transform: scale(0.9); }
         .btn-spin:disabled { filter: grayscale(1); opacity: 0.5; }
@@ -79,23 +127,43 @@
         }
 
         .payline-svg { position: absolute; inset: 0; z-index: 50; pointer-events: none; display: none; }
+
+        /* BOTÃO VOLTAR */
+        .btn-voltar {
+            position: fixed; top: 25px; left: 15px;
+            background: rgba(2, 6, 23, 0.8); border: 1px solid var(--gold);
+            padding: 8px 15px; border-radius: 10px; z-index: 100;
+            font-size: 10px; font-weight: 900; tracking-wider: 1px;
+            color: var(--gold); text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
+
+    <!-- BOTÃO VOLTAR AO APP MÃE -->
+    <button onclick="voltarAoApp()" class="btn-voltar">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </button>
 
     <!-- ROBÔ JDP INTEGRADO -->
     <div class="robot-panel">
         <div class="scan-line"></div>
         <p class="text-[8px] font-black text-cyan-400 uppercase tracking-tighter">JDP ROBOT AI</p>
-        <div id="robot-signal" class="text-xs font-bold text-white mt-1">ANALISANDO...</div>
-        <div id="robot-perc" class="text-xl font-black text-yellow-400 mt-1">0%</div>
+        <div id="robot-signal" class="text-[10px] font-bold text-white mt-1">ANALISANDO...</div>
+        <div id="robot-perc" class="text-lg font-black text-yellow-400 mt-1">0%</div>
+        <div class="mt-1 flex items-center justify-center gap-1">
+            <span id="srv-indicator" class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+            <span id="srv-status" class="text-[7px] font-bold text-gray-400">OFFLINE</span>
+        </div>
     </div>
 
+    <!-- HEADER -->
     <div class="header-main">
-        <img src="https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/media/jdp_1779950233169_vv.gif" style="width:65px; border-radius:50%; border:2px solid gold;">
-        <p class="text-[10px] font-black text-yellow-500 uppercase tracking-[0.5em] mt-1">JDP Quantum v50</p>
+        <img src="https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/media/jdp_1779950233169_vv.gif" style="width:50px; border-radius:50%; border:2px solid #fde047; object-fit: cover;">
+        <p class="text-[9px] font-black text-yellow-400 uppercase tracking-[0.4em] mt-1">JDP Quantum Tiger</p>
     </div>
 
+    <!-- ENGINE DA MÁQUINA -->
     <div class="machine-wrap">
         <div class="viewport">
             <div class="reel-track"><div class="esteira-strip" id="reel-0"></div></div>
@@ -112,36 +180,54 @@
         </div>
     </div>
 
+    <!-- TELA DE VITÓRIA -->
     <div id="win-screen" class="win-modal" onclick="this.style.display='none'">
-        <p class="text-yellow-500 font-black text-4xl italic">BIG WIN!</p>
-        <p id="win-val" class="text-6xl font-black text-white">R$ 0.00</p>
-        <div class="mt-8 px-10 py-3 bg-yellow-500 text-black font-black rounded-full animate-bounce">COLETAR</div>
+        <p class="text-yellow-400 font-black text-4xl italic tracking-widest animate-pulse">BIG WIN!</p>
+        <p id="win-val" class="text-5xl font-black text-white mt-2">0 COINS</p>
+        <div class="mt-8 px-10 py-3 bg-yellow-400 text-black font-black rounded-full animate-bounce text-xs tracking-wider uppercase">COLETAR PRÊMIO</div>
     </div>
 
+    <!-- NAV DE CONTROLE DE APOSTAS -->
     <div class="ui-nav">
-        <div class="flex justify-around w-full max-w-sm mb-4 bg-black/60 p-4 rounded-full border border-yellow-500/30">
+        <div class="flex justify-around w-full max-w-sm mb-4 bg-slate-950 p-4 rounded-full border border-slate-800">
             <div class="text-center">
-                <p class="text-[9px] text-gray-500 uppercase font-black">Saldo JDP</p>
-                <p id="balance" class="text-2xl font-black text-white">0.00</p>
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-wider">Carteira JDP</p>
+                <div class="flex items-center gap-1.5 justify-center mt-1">
+                    <i class="fas fa-coins text-yellow-400 text-xs"></i>
+                    <p id="balance" class="text-xl font-black text-white">0</p>
+                </div>
             </div>
-            <div class="text-center border-l border-white/10 pl-6">
-                <p class="text-[9px] text-gray-500 uppercase font-black">Aposta</p>
-                <div class="flex items-center gap-3">
-                    <button onclick="adjBet(-0.25)" class="text-yellow-500"><i class="fas fa-minus-circle"></i></button>
-                    <span id="bet-display" class="text-2xl font-black text-white">0.25</span>
-                    <button onclick="adjBet(0.25)" class="text-yellow-500"><i class="fas fa-plus-circle"></i></button>
+            <div class="text-center border-l border-slate-800 pl-6">
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-wider">Aposta (Coins)</p>
+                <div class="flex items-center gap-4 mt-1">
+                    <button onclick="adjBet(-1)" class="text-yellow-400 hover:opacity-85"><i class="fas fa-minus-circle text-lg"></i></button>
+                    <span id="bet-display" class="text-xl font-black text-white">1</span>
+                    <button onclick="adjBet(1)" class="text-yellow-400 hover:opacity-85"><i class="fas fa-plus-circle text-lg"></i></button>
                 </div>
             </div>
         </div>
         <button id="spin-btn" onclick="masterSpinProcess()" class="btn-spin">⚡</button>
     </div>
 
+    <!-- MOTOR DE INTELIGÊNCIA UNIFICADO -->
     <script>
-        // CONFIGURAÇÃO SUPREMA JDP
-        const TIGER_PATH = "lojas/DONY_BURGUER/config_tiger";
-        const firebaseConfig = { databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const LOJA_ID = "LEOVARDIOS_burguer_2026";
+        const TIGER_PATH = `lojas/${LOJA_ID}/config_tiger`;
+        const firebaseConfig = { 
+            apiKey: "AIzaSyCEdXF7ScnMYz0Ce0OW-B_UJ8Bm5Pl9m8o",
+            databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" 
+        };
+        
+        // Inicialização Segura do Firebase
+        let db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+            setServerStatus(true);
+        } catch (e) {
+            console.warn("HELENA CORE: Motor de Contingência V8 Offline ativo.");
+            setServerStatus(false);
+        }
 
         // TABELA DE SÍMBOLOS E PESOS (RNG PONDERADO)
         const SYMBOLS = {
@@ -154,20 +240,139 @@
             6: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135157092_1001200034.png", mult: 250, weight: 2 } // TIGRE
         };
 
-        let user = null, isSpinning = false, bet = 0.25;
+        let userSession = null;
+        let isSpinning = false;
+        let bet = 1; // Aposta padrão: 1 DonyCoin
         let lastMatrix = [[0,1,2], [3,4,5], [6,0,1]];
 
-        window.onload = () => {
-            const uid = localStorage.getItem('jdp_uid') || "JDP_" + Date.now();
-            localStorage.setItem('jdp_uid', uid);
-            db.ref(`${TIGER_PATH}/usuarios/${uid}`).on('value', s => {
-                if(!s.exists()) db.ref(`${TIGER_PATH}/usuarios/${uid}`).set({moedas: 100.00});
-                user = { id: uid, ...s.val() };
-                document.getElementById('balance').innerText = user.moedas.toFixed(2);
-                renderStatic();
-            });
+        function setServerStatus(online) {
+            const ind = document.getElementById('srv-indicator');
+            const statusText = document.getElementById('srv-status');
+            if (!ind || !statusText) return;
+            if (online) {
+                ind.className = "w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]";
+                statusText.innerText = "ONLINE";
+                statusText.className = "text-[7px] font-bold text-cyan-400";
+            } else {
+                ind.className = "w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse";
+                statusText.innerText = "LOCAL V8";
+                statusText.className = "text-[7px] font-bold text-yellow-500";
+            }
+        }
+
+        // MOTOR DE CARREGAMENTO E SINCRONIZAÇÃO INTELIGENTE HELENA
+        const JDP_Engine = {
+            async getCoins(uid) {
+                if (db) {
+                    try {
+                        const s = await db.ref(`lojas/${LOJA_ID}/usuarios/${uid}/donycoins`).once('value');
+                        if (s.exists()) {
+                            setServerStatus(true);
+                            return Math.floor(s.val());
+                        } else {
+                            // Se o usuário não existir no Firebase, auto-gera para não dar erro
+                            await db.ref(`lojas/${LOJA_ID}/usuarios/${uid}`).set({
+                                nome: uid === "5592984846058" ? "SR. JOSÉ DIVINO (CRIADOR)" : "USUÁRIO INTEGRADO",
+                                donycoins: 100,
+                                whatsapp: uid
+                            });
+                            return 100;
+                        }
+                    } catch (e) {
+                        setServerStatus(false);
+                    }
+                }
+                const local = localStorage.getItem(`jdp_coins_${uid}`);
+                return local !== null ? parseInt(local) : 100;
+            },
+
+            async setCoins(uid, val) {
+                localStorage.setItem(`jdp_coins_${uid}`, val);
+                if (db) {
+                    try {
+                        await db.ref(`lojas/${LOJA_ID}/usuarios/${uid}/donycoins`).set(val);
+                        setServerStatus(true);
+                    } catch (e) {
+                        setServerStatus(false);
+                    }
+                }
+            },
+
+            async transCoins(uid, delta) {
+                const atual = await this.getCoins(uid);
+                const novoVal = Math.max(0, atual + delta);
+                await this.setCoins(uid, novoVal);
+                return novoVal;
+            },
+
+            async checkWinMode() {
+                if (db) {
+                    try {
+                        const s = await db.ref(`${TIGER_PATH}/win_mode`).once('value');
+                        setServerStatus(true);
+                        return s.val() === true;
+                    } catch (e) {
+                        setServerStatus(false);
+                    }
+                }
+                return false;
+            },
+
+            async resetWinMode() {
+                if (db) {
+                    try {
+                        await db.ref(`${TIGER_PATH}/win_mode`).set(false);
+                        setServerStatus(true);
+                    } catch (e) {
+                        setServerStatus(false);
+                    }
+                }
+            }
+        };
+
+        window.onload = async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let whatsSalvo = urlParams.get('u') || localStorage.getItem('jdp_cliente_whatsapp');
+
+            // Proteção de Identidade e Segurança do Criador / Julia
+            const localBypass = localStorage.getItem('jdp_admin_bypass');
+            if (localBypass === 'true') {
+                whatsSalvo = whatsSalvo || '5592984846058';
+            }
+
+            if (!whatsSalvo) {
+                alert("ACESSO RESTRITO: Por favor, faça login no aplicativo de pedidos primeiro.");
+                window.location.href = "https://pradodalapa-hue.github.io/JDPSistemasdonyburguresortriortyss688jfdssyiihfd/";
+                return;
+            }
+
+            const whatsLimpo = whatsSalvo.replace(/\D/g, "");
+            
+            // Carregamento de Sessão Seguro sem Erro
+            const moedasIniciais = await JDP_Engine.getCoins(whatsLimpo);
+            userSession = { id: whatsLimpo, donycoins: moedasIniciais };
+            document.getElementById('balance').innerText = userSession.donycoins;
+            renderStatic();
+
+            // Ouvinte Realtime Seletivo e Seguro
+            if (db) {
+                db.ref(`lojas/${LOJA_ID}/usuarios/${whatsLimpo}/donycoins`).on('value', snap => {
+                    setServerStatus(true);
+                    if (snap.exists()) {
+                        userSession.donycoins = Math.floor(snap.val());
+                        document.getElementById('balance').innerText = userSession.donycoins;
+                    }
+                }, () => setServerStatus(false));
+            }
+
             updateRobot();
         };
+
+        function voltarAoApp() {
+            const whats = localStorage.getItem('jdp_cliente_whatsapp') || "";
+            const queryParam = whats ? `?u=${whats}` : "";
+            window.location.href = "https://pradodalapa-hue.github.io/JDPSistemasdonyburguresortriortyss688jfdssyiihfd/" + queryParam;
+        }
 
         function renderStatic() {
             for(let i=0; i<3; i++) {
@@ -177,11 +382,16 @@
             }
         }
 
-        function adjBet(v) { if(!isSpinning) { bet = Math.max(0.25, bet + v); document.getElementById('bet-display').innerText = bet.toFixed(2); } }
+        function adjBet(v) { 
+            if(!isSpinning) { 
+                bet = Math.max(1, bet + v); 
+                document.getElementById('bet-display').innerText = bet; 
+            } 
+        }
 
-        // ROBÔ PREDITIVO (SIMULAÇÃO DE ANÁLISE DE DADOS)
+        // ROBÔ PREDITIVO JDP
         function updateRobot() {
-            const signals = ["ESTÁVEL", "ALTA", "ATAQUE!", "AGUARDE", "98%"];
+            const signals = ["ESTÁVEL", "ALTA", "ATAQUE!", "AGUARDE", "98% ATIVO"];
             setInterval(() => {
                 const perc = Math.floor(Math.random() * 40) + 60;
                 const sig = signals[Math.floor(Math.random() * signals.length)];
@@ -226,31 +436,39 @@
         }
 
         async function masterSpinProcess() {
-            if(isSpinning || user.moedas < bet) return;
+            if(isSpinning) return;
+            
+            const currentCoins = userSession.donycoins || 0;
+            if(currentCoins < bet) {
+                alert("SALDO DE DONYCOINS INSUFICIENTE. COMPLETE MISSÕES PARA GANHAR MAIS COINS!");
+                return;
+            }
+
             isSpinning = true;
             document.getElementById('spin-btn').disabled = true;
             document.getElementById('svg-lines').style.display = 'none';
 
-            // 1. DÉBITO IMEDIATO
-            await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(c => (c || 0) - bet);
+            // 1. DÉBITO SEGURO VIA MOTOR V8
+            const novoSaldo = await JDP_Engine.transCoins(userSession.id, -bet);
+            userSession.donycoins = novoSaldo;
+            document.getElementById('balance').innerText = userSession.donycoins;
 
-            // 2. DECISÃO DETERMINÍSTICA
-            const winSnap = await db.ref(`${TIGER_PATH}/win_mode`).once('value');
-            const forceWin = winSnap.val() === true;
+            // 2. DECISÃO DETERMINÍSTICA (WIN MODE DO ADMIN)
+            const forceWin = await JDP_Engine.checkWinMode();
             let result;
 
             if(forceWin) {
                 const id = [5,6][Math.floor(Math.random()*2)];
                 result = [[id,id,id], [id,id,id], [id,id,id]];
-                db.ref(`${TIGER_PATH}/win_mode`).set(false);
+                await JDP_Engine.resetWinMode();
             } else {
                 result = Array.from({length:3}, () => Array.from({length:3}, () => getWeighted()));
             }
 
             const winData = checkWin(result);
-            const STRIPS = 60;
+            const STRIPS = 40;
 
-            // 3. MOVIMENTO DA ESTEIRA
+            // 3. ANIMAÇÃO GSAP DA ESTEIRA
             for(let i=0; i<3; i++) {
                 const est = document.getElementById(`reel-${i}`);
                 let html = lastMatrix[i].map(id => `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`).join('');
@@ -263,7 +481,7 @@
 
                 gsap.to(est, {
                     y: -(STRIPS * 120),
-                    duration: 2.5 + (i * 0.5),
+                    duration: 2.2 + (i * 0.4),
                     ease: "power4.out",
                     onComplete: () => { if(i === 2) finalizeMaster(winData, result); }
                 });
@@ -280,11 +498,13 @@
                 document.querySelectorAll('line').forEach(l => l.style.display = 'none');
                 data.lines.forEach(id => document.getElementById('l'+id).style.display = 'block');
 
-                // CRÉDITO NO FIREBASE
-                await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(c => (c || 0) + data.total);
+                // CRÉDITO SEGURO VIA MOTOR V8
+                const novoSaldo = await JDP_Engine.transCoins(userSession.id, data.total);
+                userSession.donycoins = novoSaldo;
+                document.getElementById('balance').innerText = userSession.donycoins;
 
                 setTimeout(() => {
-                    document.getElementById('win-val').innerText = "R$ " + data.total.toFixed(2);
+                    document.getElementById('win-val').innerText = `+${data.total} COINS`;
                     document.getElementById('win-screen').style.display = 'flex';
                 }, 500);
             }
@@ -292,4 +512,4 @@
         }
     </script>
 </body>
-</html>
+                        </html>
