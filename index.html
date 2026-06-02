@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JDP QUANTUM - FORTUNE TIGER ELITE v12.0</title>
+    <title>JDP QUANTUM - FORTUNE TIGER ELITE</title>
 
     <!-- ================================================================= -->
     <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
@@ -12,7 +12,7 @@
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const masterBypass = urlParams.get('admin') || urlParams.get('master') || urlParams.get('login');
-                         
+            
             // Auto-login de Segurança do Criador
             if (masterBypass === 'jdp' || masterBypass === '1234' || masterBypass === 'Princesa Diamante') {
                 localStorage.setItem('jdp_admin_bypass', 'true');
@@ -31,7 +31,7 @@
                 localStorage.setItem('jdp_cliente_nome', 'JULIA (CONTA MONITORADA)');
                 localStorage.setItem('jdp_cliente_whatsapp', '5592900000000');
                 localStorage.setItem('jdp_cliente_endereco', 'ACESSO DE TESTE VIGIA - AM');
-                                 
+                
                 if (urlParams.has('user') || urlParams.has('nome')) {
                     window.location.href = window.location.pathname;
                 }
@@ -45,7 +45,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-         
+    
     <!-- MOTORES DE CONEXÃO DO CRIADOR -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -53,12 +53,12 @@
     <style>
         :root { --gold: #fde047; --cyan: #06b6d4; --slate: #020617; }
         body { 
-             background: var(--slate); 
-             color: #fff; 
-             font-family: 'Inter', sans-serif; 
-             overflow: hidden; 
-             margin: 0; 
-             user-select: none;
+            background: var(--slate); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+            margin: 0; 
+            user-select: none;
             -webkit-user-select: none;
         }
 
@@ -148,9 +148,9 @@
     <!-- ROBÔ JDP INTEGRADO -->
     <div class="robot-panel">
         <div class="scan-line"></div>
-        <p class="text-[8px] font-black text-cyan-400 uppercase tracking-tighter">DONYBANK NODE</p>
-        <div id="robot-signal" class="text-[9px] font-bold text-white mt-1">SINC. BANCO...</div>
-        <div id="robot-perc" class="text-sm font-black text-yellow-400 mt-1">0 🪙</div>
+        <p class="text-[8px] font-black text-cyan-400 uppercase tracking-tighter">JDP ROBOT AI</p>
+        <div id="robot-signal" class="text-[10px] font-bold text-white mt-1">ANALISANDO...</div>
+        <div id="robot-perc" class="text-lg font-black text-yellow-400 mt-1">0%</div>
         <div class="mt-1 flex items-center justify-center gap-1">
             <span id="srv-indicator" class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
             <span id="srv-status" class="text-[7px] font-bold text-gray-400">OFFLINE</span>
@@ -169,7 +169,7 @@
             <div class="reel-track"><div class="esteira-strip" id="reel-0"></div></div>
             <div class="reel-track"><div class="esteira-strip" id="reel-1"></div></div>
             <div class="reel-track"><div class="esteira-strip" id="reel-2"></div></div>
-                         
+            
             <svg class="payline-svg" id="svg-lines" viewBox="0 0 360 360">
                 <line id="l0" x1="0" y1="60" x2="360" y2="60" stroke="#fde047" stroke-width="12" />
                 <line id="l1" x1="0" y1="180" x2="360" y2="180" stroke="#fde047" stroke-width="12" />
@@ -181,10 +181,10 @@
     </div>
 
     <!-- TELA DE VITÓRIA -->
-    <div id="win-screen" class="win-modal" onclick="fecharWinScreen()">
+    <div id="win-screen" class="win-modal" onclick="this.style.display='none'">
         <p class="text-yellow-400 font-black text-4xl italic tracking-widest animate-pulse">BIG WIN!</p>
         <p id="win-val" class="text-5xl font-black text-white mt-2">0 COINS</p>
-        <div class="mt-8 px-10 py-3 bg-yellow-400 text-black font-black rounded-full animate-bounce text-xs tracking-wider uppercase">DEPOSITAR NO BANCO</div>
+        <div class="mt-8 px-10 py-3 bg-yellow-400 text-black font-black rounded-full animate-bounce text-xs tracking-wider uppercase">COLETAR PRÊMIO</div>
     </div>
 
     <!-- NAV DE CONTROLE DE APOSTAS -->
@@ -213,14 +213,12 @@
     <script>
         const LOJA_ID = "LEOVARDIOS_burguer_2026";
         const TIGER_PATH = `lojas/${LOJA_ID}/config_tiger`;
-        const LEDGER_PATH = `lojas/${LOJA_ID}/DonyCoins/ledger`;
-        const MASTER_TETO = 1000;
-
         const firebaseConfig = { 
-             apiKey: "AIzaSyCEdXF7ScnMYz0Ce0OW-B_UJ8Bm5Pl9m8o",
-             databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" 
+            apiKey: "AIzaSyCEdXF7ScnMYz0Ce0OW-B_UJ8Bm5Pl9m8o",
+            databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" 
         };
-                 
+        
+        // Inicialização Segura do Firebase
         let db;
         try {
             firebase.initializeApp(firebaseConfig);
@@ -231,22 +229,21 @@
             setServerStatus(false);
         }
 
+        // TABELA DE SÍMBOLOS E PESOS (RNG PONDERADO)
         const SYMBOLS = {
             0: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780134898787_68e52fdd68ba6.png", mult: 3, weight: 40 },
-            1: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780134959162_68e52fe681896.png", mult: 5, weight: 30 },
-            2: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135023011_68e52fecc8ad2.png", mult: 8, weight: 15 },
-            3: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135023011_68e52fecc8ad2.png", mult: 10, weight: 10 },
-            4: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135105584_1001200033.png", mult: 15, weight: 6 },
+            1: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780417096467_Engenheiro_Transparente__4_.png", mult: 5, weight: 30 },
+            2: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780417820714_Engenheiro_Transparente__5_.png", mult: 8, weight: 15 },
+            3: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780418203069_Engenheiro_Transparente__6_.png", mult: 10, weight: 10 },
+            4: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780418497879_Engenheiro_Transparente__7_.png", mult: 15, weight: 6 },
             5: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135105584_1001200033.png", mult: 20, weight: 4 },
             6: { img: "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780135157092_1001200034.png", mult: 250, weight: 2 } // TIGRE
         };
 
         let userSession = null;
         let isSpinning = false;
-        let bet = 1; 
+        let bet = 1; // Aposta padrão: 1 DonyCoin
         let lastMatrix = [[0,1,2], [3,4,5], [6,0,1]];
-        let totalCirculanteGlobal = 0;
-        let pendingReward = 0;
 
         function setServerStatus(online) {
             const ind = document.getElementById('srv-indicator');
@@ -263,51 +260,7 @@
             }
         }
 
-        // MOTOR CRIPTOGRÁFICO DE ASSINATURA DIGITAL (SHA-256)
-        async function gerarHashBloco(index, timestamp, sender, receiver, amount, prevHash) {
-            const blockData = `${index}-${timestamp}-${sender}-${receiver}-${amount}-${prevHash}`;
-            const msgBuffer = new TextEncoder().encode(blockData);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // REGISTRO DE TRANSAÇÃO EXCLUSIVO NO DONYBANK LEDGER
-        async function registrarTransacaoNoBank(sender, receiver, amount, type, reason) {
-            if (!db) throw new Error("FIREBASE_OFFLINE");
-
-            const snap = await db.ref(LEDGER_PATH).get();
-            const ledger = snap.val() || {};
-            const index = Object.keys(ledger).length;
-
-            if (type === "EMISSAO" || type === "RECOMPENSA") {
-                if (totalCirculanteGlobal + amount > MASTER_TETO) {
-                    alert("LIMITE DO COFRE EXCEDIDO: O DonyBank bloqueou esta emissão por segurança do teto.");
-                    throw new Error("TETO_EXCEDIDO");
-                }
-            }
-
-            const prevBlock = ledger[index - 1] || { hash: "00000000000000000000000000000000" };
-            const timestamp = Date.now();
-            const hash = await gerarHashBloco(index, timestamp, sender, receiver, amount, prevBlock.hash);
-
-            const novoBloco = {
-                index,
-                timestamp,
-                sender,
-                receiver,
-                amount,
-                type,
-                reason,
-                prevHash: prevBlock.hash,
-                hash
-            };
-
-            await db.ref(`${LEDGER_PATH}/${index}`).set(novoBloco);
-            return novoBloco;
-        }
-
-        // MOTOR DE SINCRONIZAÇÃO DA CARTEIRA
+        // MOTOR DE CARREGAMENTO E SINCRONIZAÇÃO INTELIGENTE HELENA
         const JDP_Engine = {
             async getCoins(uid) {
                 if (db) {
@@ -316,6 +269,14 @@
                         if (s.exists()) {
                             setServerStatus(true);
                             return Math.floor(s.val());
+                        } else {
+                            // Se o usuário não existir no Firebase, auto-gera para não dar erro
+                            await db.ref(`lojas/${LOJA_ID}/usuarios/${uid}`).set({
+                                nome: uid === "5592984846058" ? "SR. JOSÉ DIVINO (CRIADOR)" : "USUÁRIO INTEGRADO",
+                                donycoins: 100,
+                                whatsapp: uid
+                            });
+                            return 100;
                         }
                     } catch (e) {
                         setServerStatus(false);
@@ -323,6 +284,25 @@
                 }
                 const local = localStorage.getItem(`jdp_coins_${uid}`);
                 return local !== null ? parseInt(local) : 100;
+            },
+
+            async setCoins(uid, val) {
+                localStorage.setItem(`jdp_coins_${uid}`, val);
+                if (db) {
+                    try {
+                        await db.ref(`lojas/${LOJA_ID}/usuarios/${uid}/donycoins`).set(val);
+                        setServerStatus(true);
+                    } catch (e) {
+                        setServerStatus(false);
+                    }
+                }
+            },
+
+            async transCoins(uid, delta) {
+                const atual = await this.getCoins(uid);
+                const novoVal = Math.max(0, atual + delta);
+                await this.setCoins(uid, novoVal);
+                return novoVal;
             },
 
             async checkWinMode() {
@@ -354,6 +334,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             let whatsSalvo = urlParams.get('u') || localStorage.getItem('jdp_cliente_whatsapp');
 
+            // Proteção de Identidade e Segurança do Criador / Julia
             const localBypass = localStorage.getItem('jdp_admin_bypass');
             if (localBypass === 'true') {
                 whatsSalvo = whatsSalvo || '5592984846058';
@@ -366,14 +347,15 @@
             }
 
             const whatsLimpo = whatsSalvo.replace(/\D/g, "");
-                         
+            
+            // Carregamento de Sessão Seguro sem Erro
             const moedasIniciais = await JDP_Engine.getCoins(whatsLimpo);
             userSession = { id: whatsLimpo, donycoins: moedasIniciais };
             document.getElementById('balance').innerText = userSession.donycoins;
             renderStatic();
 
+            // Ouvinte Realtime Seletivo e Seguro
             if (db) {
-                // Sincroniza saldo em tempo real
                 db.ref(`lojas/${LOJA_ID}/usuarios/${whatsLimpo}/donycoins`).on('value', snap => {
                     setServerStatus(true);
                     if (snap.exists()) {
@@ -381,30 +363,9 @@
                         document.getElementById('balance').innerText = userSession.donycoins;
                     }
                 }, () => setServerStatus(false));
-
-                // Monitoramento constante do teto de circulação do DonyBank
-                db.ref(LEDGER_PATH).on('value', snap => {
-                    const ledger = snap.val() || {};
-                    totalCirculanteGlobal = 0;
-                    Object.values(ledger).forEach(b => {
-                        if (b.type === "EMISSAO" || b.type === "RECOMPENSA") {
-                            totalCirculanteGlobal += b.amount;
-                        } else if (b.type === "DEBITO" || b.type === "COMPRA") {
-                            totalCirculanteGlobal -= b.amount;
-                        }
-                    });
-                    
-                    document.getElementById('robot-perc').innerText = `${totalCirculanteGlobal} / ${MASTER_TETO} 🪙`;
-                    const srvSignal = document.getElementById('robot-signal');
-                    if (totalCirculanteGlobal >= MASTER_TETO) {
-                        srvSignal.innerText = "TETO LIMITE";
-                        srvSignal.className = "text-[9px] font-bold text-red-500 animate-pulse mt-1";
-                    } else {
-                        srvSignal.innerText = "SISTEMA SEGURO";
-                        srvSignal.className = "text-[9px] font-bold text-emerald-400 mt-1";
-                    }
-                });
             }
+
+            updateRobot();
         };
 
         function voltarAoApp() {
@@ -421,13 +382,25 @@
             }
         }
 
-        function adjBet(v) {
-             if(!isSpinning) {
-                 bet = Math.max(1, bet + v);
-                 document.getElementById('bet-display').innerText = bet;
-             }
+        function adjBet(v) { 
+            if(!isSpinning) { 
+                bet = Math.max(1, bet + v); 
+                document.getElementById('bet-display').innerText = bet; 
+            } 
         }
 
+        // ROBÔ PREDITIVO JDP
+        function updateRobot() {
+            const signals = ["ESTÁVEL", "ALTA", "ATAQUE!", "AGUARDE", "98% ATIVO"];
+            setInterval(() => {
+                const perc = Math.floor(Math.random() * 40) + 60;
+                const sig = signals[Math.floor(Math.random() * signals.length)];
+                document.getElementById('robot-perc').innerText = perc + "%";
+                document.getElementById('robot-signal').innerText = sig;
+            }, 5000);
+        }
+
+        // LÓGICA DE SOMA MILIMÉTRICA JDP
         function checkWin(matrix) {
             let total = 0;
             let lines = [];
@@ -444,11 +417,12 @@
                 }
             });
 
+            // MULTIPLICADOR TELA CHEIA 10x
             const flat = matrix.flat();
             const first = flat.find(id => id !== 6) || 6;
             if (flat.every(id => id === first || id === 6)) total *= 10;
 
-            return { total: Math.floor(total), lines };
+            return { total, lines };
         }
 
         function getWeighted() {
@@ -461,10 +435,9 @@
             return 0;
         }
 
-        // PROCESSO DE GIRO COM DECLARAÇÃO OBRIGATÓRIA AO DONYBANK
         async function masterSpinProcess() {
             if(isSpinning) return;
-                         
+            
             const currentCoins = userSession.donycoins || 0;
             if(currentCoins < bet) {
                 alert("SALDO DE DONYCOINS INSUFICIENTE. COMPLETE MISSÕES PARA GANHAR MAIS COINS!");
@@ -475,53 +448,43 @@
             document.getElementById('spin-btn').disabled = true;
             document.getElementById('svg-lines').style.display = 'none';
 
-            try {
-                // DECLARAÇÃO DE DÉBITO (APESTA) DIRETAMENTE NO LEDGER DO BANCO
-                await registrarTransacaoNoBank(userSession.id, "CRIADOR_JDP", bet, "DEBITO", "APOSTA TIGER SPIN");
+            // 1. DÉBITO SEGURO VIA MOTOR V8
+            const novoSaldo = await JDP_Engine.transCoins(userSession.id, -bet);
+            userSession.donycoins = novoSaldo;
+            document.getElementById('balance').innerText = userSession.donycoins;
+
+            // 2. DECISÃO DETERMINÍSTICA (WIN MODE DO ADMIN)
+            const forceWin = await JDP_Engine.checkWinMode();
+            let result;
+
+            if(forceWin) {
+                const id = [5,6][Math.floor(Math.random()*2)];
+                result = [[id,id,id], [id,id,id], [id,id,id]];
+                await JDP_Engine.resetWinMode();
+            } else {
+                result = Array.from({length:3}, () => Array.from({length:3}, () => getWeighted()));
+            }
+
+            const winData = checkWin(result);
+            const STRIPS = 40;
+
+            // 3. ANIMAÇÃO GSAP DA ESTEIRA
+            for(let i=0; i<3; i++) {
+                const est = document.getElementById(`reel-${i}`);
+                let html = lastMatrix[i].map(id => `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`).join('');
                 
-                // Atualiza o saldo local e o Firebase após confirmação do bloco
-                const novoSaldo = currentCoins - bet;
-                await db.ref(`lojas/${LOJA_ID}/usuarios/${userSession.id}/donycoins`).set(novoSaldo);
-                userSession.donycoins = novoSaldo;
-                document.getElementById('balance').innerText = novoSaldo;
-
-                // DECISÃO DETERMINÍSTICA (WIN MODE DO ADMIN)
-                const forceWin = await JDP_Engine.checkWinMode();
-                let result;
-
-                if(forceWin) {
-                    const id = [5,6][Math.floor(Math.random()*2)];
-                    result = [[id,id,id], [id,id,id], [id,id,id]];
-                    await JDP_Engine.resetWinMode();
-                } else {
-                    result = Array.from({length:3}, () => Array.from({length:3}, () => getWeighted()));
+                for(let s=0; s<STRIPS; s++) {
+                    const id = (s >= STRIPS-3) ? result[i][s-(STRIPS-3)] : getWeighted();
+                    html += `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`;
                 }
+                est.innerHTML = html;
 
-                const winData = checkWin(result);
-                const STRIPS = 40;
-
-                // ANIMAÇÃO GSAP DA ESTEIRA
-                for(let i=0; i<3; i++) {
-                    const est = document.getElementById(`reel-${i}`);
-                    let html = lastMatrix[i].map(id => `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`).join('');
-                                 
-                    for(let s=0; s<STRIPS; s++) {
-                        const id = (s >= STRIPS-3) ? result[i][s-(STRIPS-3)] : getWeighted();
-                        html += `<div class="slot-box"><img src="${SYMBOLS[id].img}"></div>`;
-                    }
-                    est.innerHTML = html;
-
-                    gsap.to(est, {
-                        y: -(STRIPS * 120),
-                        duration: 2.2 + (i * 0.4),
-                        ease: "power4.out",
-                        onComplete: () => { if(i === 2) finalizeMaster(winData, result); }
-                    });
-                }
-            } catch (err) {
-                isSpinning = false;
-                document.getElementById('spin-btn').disabled = false;
-                console.error("Transação rejeitada pelo banco.", err);
+                gsap.to(est, {
+                    y: -(STRIPS * 120),
+                    duration: 2.2 + (i * 0.4),
+                    ease: "power4.out",
+                    onComplete: () => { if(i === 2) finalizeMaster(winData, result); }
+                });
             }
         }
 
@@ -535,44 +498,18 @@
                 document.querySelectorAll('line').forEach(l => l.style.display = 'none');
                 data.lines.forEach(id => document.getElementById('l'+id).style.display = 'block');
 
-                // Mantém o prêmio pendente até o usuário clicar em "COLETAR"
-                pendingReward = data.total;
-
-                // Alerta preventivo se o prêmio estourar o cofre
-                if (totalCirculanteGlobal + pendingReward > MASTER_TETO) {
-                    pendingReward = MASTER_TETO - totalCirculanteGlobal;
-                    alert(`HELENA: O prêmio excedeu o teto do DonyBank. Transação ajustada para o limite seguro de +${pendingReward} Coins.`);
-                }
+                // CRÉDITO SEGURO VIA MOTOR V8
+                const novoSaldo = await JDP_Engine.transCoins(userSession.id, data.total);
+                userSession.donycoins = novoSaldo;
+                document.getElementById('balance').innerText = userSession.donycoins;
 
                 setTimeout(() => {
-                    document.getElementById('win-val').innerText = `+${pendingReward} COINS`;
+                    document.getElementById('win-val').innerText = `+${data.total} COINS`;
                     document.getElementById('win-screen').style.display = 'flex';
                 }, 500);
             }
             renderStatic();
         }
-
-        // DECLARAÇÃO DE CRÉDITO (PRÊMIO) DIRETAMENTE NO LEDGER DO BANCO AO COLETAR
-        async function fecharWinScreen() {
-            if (pendingReward > 0) {
-                try {
-                    // Declaração formal ao DonyBank
-                    await registrarTransacaoNoBank("CRIADOR_JDP", userSession.id, pendingReward, "RECOMPENSA", "PREMIO TIGER SPIN");
-                    
-                    const novoSaldo = userSession.donycoins + pendingReward;
-                    await db.ref(`lojas/${LOJA_ID}/usuarios/${userSession.id}/donycoins`).set(novoSaldo);
-                    
-                    userSession.donycoins = novoSaldo;
-                    document.getElementById('balance').innerText = novoSaldo;
-                    pendingReward = 0;
-                } catch (err) {
-                    alert("A transação de prêmio foi suspensa pelo banco para evitar estouro de teto.");
-                }
-            }
-            document.getElementById('win-screen').style.display = 'none';
-        }
     </script>
 </body>
-</html>
-
-
+    </html>
