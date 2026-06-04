@@ -8,10 +8,6 @@
     <!-- ================================================================= -->
     <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
     <!-- ================================================================= -->
-    
-    <!-- ================================================================= -->
-    <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
-    <!-- ================================================================= -->
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -40,7 +36,7 @@
                 }
             }
 
-            // PREVINE PISCADA
+            // Previne piscada se houver sessão ativa
             const whatsSalvo = urlParams.get('u') || localStorage.getItem('jdp_cliente_whatsapp');
             if (whatsSalvo) {
                 document.documentElement.classList.add('session-active');
@@ -48,29 +44,6 @@
         })();
     </script>
     <!-- ================================================================= -->
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- COMPATIBILIDADE DOS MOTORES -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { mono: ['JetBrains Mono', 'monospace'] },
-                    colors: {
-                        slate: { 950: '#020617' },
-                        cyan: { 500: '#06b6d4' },
-                        yellow: { 300: '#fde047' }
-                    }
-                }
-            }
-        }
-    </script>
 
     <!-- BIBLIOTECAS DE ALTA PERFORMANCE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -85,14 +58,14 @@
     <style>
         :root { 
             --gold: #fde047; 
-            --cyan: #06b6d4; 
-            --slate: #020617; 
-            --neon-pink: #f43f5e;
+            --cyan: #ffb300; 
+            --slate: #ffb300; 
+            --neon-pink: #f43f;
             --emerald: #10b981;
             --dark-metal: #0b0f19;
         }
         body { 
-            background: radial-gradient(circle at center, #0f172a 0%, var(--slate) 100%); 
+            background: radial-gradient(circle at center, #0f1 0%, var(--slate) 100%); 
             color: #fff; 
             font-family: 'Inter', sans-serif; 
             overflow: hidden; 
@@ -101,23 +74,6 @@
             -webkit-user-select: none;
         }
 
-        /* PAINEL HOLOGRÁFICO DO ROBÔ JDP */
-        .robot-panel {
-            position: fixed; top: 12px; right: 12px; width: 140px;
-            background: rgba(11, 15, 25, 0.9); 
-            border: 1px solid rgba(6, 182, 212, 0.4);
-            border-radius: 12px; padding: 10px; z-index: 100;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15), inset 0 0 10px rgba(6, 182, 212, 0.1); 
-            text-align: center;
-            backdrop-filter: blur(8px);
-        }
-        .scan-line { 
-            width: 100%; height: 1px; 
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent); 
-            position: absolute; top: 0; left: 0; 
-            animation: scan 2.5s linear infinite; 
-        }
-        @keyframes scan { 0% { top: 0%; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 
         /* HEADER INDUSTRIAL */
         .header-main {
@@ -152,17 +108,7 @@
             box-shadow: inset 0 0 30px rgba(0,0,0,0.95);
         }
 
-        /* SOMBREAMENTO DE CONTENÇÃO CONTRA ERROS GRÁFICOS */
-        .tapete-overlay {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 80;
-            box-shadow: 
-                inset 0 45px 30px rgba(0, 0, 0, 0.98), 
-                inset 0 -45px 30px rgba(0, 0, 0, 0.98);
-            border-radius: 14px;
-        }
+        
 
         /* DIVISORES DE COLUNA DO TAPETE */
         .tapete-divider {
@@ -179,7 +125,7 @@
             flex: 1; 
             position: relative; 
             height: 100%; 
-            background: rgba(0, 0, 0, 0.2); 
+            background: rgba(0, 0, 0, 0.25); 
             overflow: hidden; 
             transition: all 0.3s ease;
         }
@@ -293,33 +239,19 @@
             padding: 24px;
         }
 
-        /* BOTÃO VOLTAR */
-        .btn-voltar {
-            position: fixed; top: 15px; left: 12px;
-            background: rgba(15, 23, 42, 0.85); border: 1px solid var(--gold);
-            padding: 8px 16px; border-radius: 12px; z-index: 100;
-            font-size: 11px; font-weight: 900; font-family: 'Orbitron', sans-serif;
-            color: var(--gold); text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            backdrop-filter: blur(5px);
+        
+        /* Controle de Exibição de Sessão */
+        .session-active #login-screen {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <!-- BOTÃO VOLTAR AO APP MÃE -->
-    <button onclick="voltarAoApp()" class="btn-voltar">
-        <i class="fas fa-arrow-left mr-1"></i> Voltar
-    </button>
+    
 
-    <!-- ROBÔ DE ANÁLISE DO MOTOR DO PIX (DIAGNOSTIC LABELS) -->
-    <div class="robot-panel">
-        <div class="scan-line"></div>
-        <p class="text-[9px] font-black text-cyan-400 uppercase tracking-widest font-mono">REATOR JDP</p>
-        <div id="robot-signal" class="text-[10px] font-bold text-emerald-400 mt-1 font-mono">PIX_ENGINE: OK</div>
-        <div id="robot-perc" class="text-sm font-black text-yellow-400 mt-0.5 font-mono">AUDIT: 100%</div>
-        <div class="text-[8px] text-gray-400 mt-1 font-mono tracking-tighter">CRC16: SECURE</div>
-    </div>
+    
+
 
     <!-- LOGO DO SISTEMA -->
     <div class="header-main">
@@ -355,7 +287,7 @@
             <img src="https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1780570078280_Engenheiro_Transparente__6_.png" class="w-44 h-44 object-contain relative z-10 animate-pulse">
         </div>
         <p class="text-yellow-400 font-bold text-4xl tracking-widest uppercase font-mono mb-2">RODADAS GRÁTIS</p>
-        <p class="text-cyan-400 text-sm tracking-widest uppercase font-mono mb-8">INICIALIZANDO SUBSISTEMA DO PIX</p>
+        <p class="text-cyan-400 text-sm tracking-widest uppercase font-mono mb-8"></p>
         
         <!-- BARRA COLORIDA CARREGANDO -->
         <div class="bonus-bar-container mb-4">
@@ -399,8 +331,8 @@
 
         <div class="flex justify-around w-full max-w-sm mb-5 bg-slate-950/90 p-3 rounded-2xl border border-yellow-500/20 shadow-inner">
             <div class="text-center">
-                <p class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Saldo JDP</p>
-                <p id="balance" class="text-2xl font-black text-white font-mono">0.00</p>
+                <p class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Saldo </p>
+                <p id="balance" class="text-2xl font-black text-white font-mono font-mono">0.00</p>
             </div>
             <div class="text-center border-l border-white/10 pl-8">
                 <p class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Aposta</p>
@@ -414,15 +346,18 @@
         
         <!-- REATOR DE SPIN -->
         <div class="btn-spin-container">
-            <button id="spin-btn" onclick="masterSpinProcess()" class="btn-spin">⚡</button>
+            <button id="spin-btn" onclick="masterSpinProcess()" class="btn-spin"></button>
             <div class="spin-ring"></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÕES DE CONEXÃO DO BANCO DE DADOS
-        const TIGER_PATH = "lojas/DONY_BURGUER/config_tiger";
-        const firebaseConfig = { databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" };
+        // CONFIGURAÇÕES DE CONEXÃO DO BANCO DE DADOS UNIFICADO (LEOVARDIOS BURGUER 2026)
+        const LOJA_ID = "LEOVARDIOS_burguer_2026";
+        const firebaseConfig = { 
+            apiKey: "AIzaSyCEdXF7ScnMYz0Ce0OW-B_UJ8Bm5Pl9m8o",
+            databaseURL: "https://dony-burguers-default-rtdb.firebaseio.com" 
+        };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
@@ -475,20 +410,67 @@
         let freeSpinsAccumulatedCents = 0;
 
         window.onload = () => {
-            const uid = localStorage.getItem('jdp_uid') || "JDP_" + Date.now();
-            localStorage.setItem('jdp_uid', uid);
-            db.ref(`${TIGER_PATH}/usuarios/${uid}`).on('value', s => {
-                if(!s.exists()) db.ref(`${TIGER_PATH}/usuarios/${uid}`).set({moedas: 100.00});
-                user = { id: uid, ...s.val() };
-                document.getElementById('balance').innerText = user.moedas.toFixed(2);
+            const urlParams = new URLSearchParams(window.location.search);
+            const whatsSalvo = urlParams.get('u') || localStorage.getItem('jdp_cliente_whatsapp');
+
+            if (whatsSalvo) {
+                localStorage.setItem('jdp_cliente_whatsapp', whatsSalvo);
+                document.getElementById('login-screen').style.display = 'none';
+                document.documentElement.classList.add('session-active');
+                syncClientState(whatsSalvo);
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+            }
+        };
+
+        // REGISTRO DE OPERADOR UNIFICADO (COMUNICAÇÃO DIRETA COM AS MISSÕES)
+        function registerSession() {
+            const name = document.getElementById('user-name-input').value.trim();
+            const phone = document.getElementById('user-phone-input').value.replace(/\D/g, "");
+
+            if (!name || !phone) {
+                alert("Por favor, preencha os dados para conexão.");
+                return;
+            }
+
+            localStorage.setItem('jdp_cliente_nome', name.toUpperCase());
+            localStorage.setItem('jdp_cliente_whatsapp', phone);
+            document.getElementById('login-screen').style.display = 'none';
+            document.documentElement.classList.add('session-active');
+
+            // Cria o usuário no banco unificado se não existir
+            db.ref(`lojas/${LOJA_ID}/usuarios/${phone}`).get().then(snap => {
+                if (!snap.exists()) {
+                    db.ref(`lojas/${LOJA_ID}/usuarios/${phone}`).set({
+                        nome: name.toUpperCase(),
+                        whatsapp: phone,
+                        endereco: "ENTREGA CENTRAL",
+                        donycoins: 10.00, // Saldo inicial unificado
+                        currentUnlocked: 1,
+                        data_cadastro: Date.now(),
+                        status_missao: "nenhuma"
+                    });
+                }
+                syncClientState(phone);
+            });
+        }
+
+        // SINCRONIZAÇÃO EM TEMPO REAL DAS MOEDAS DO PAINEL DE MISSÕES (donycoins)
+        function syncClientState(phone) {
+            db.ref(`lojas/${LOJA_ID}/usuarios/${phone}`).on('value', snap => {
+                const data = snap.val();
+                if (!data) return;
+                user = { id: phone, ...data };
+                // Sincroniza o saldo donycoins com a UI do jogo em tempo real
+                document.getElementById('balance').innerText = (data.donycoins || 0).toFixed(2);
                 renderStatic();
             });
-        };
+        }
 
         function voltarAoApp() {
             const whats = localStorage.getItem('jdp_cliente_whatsapp') || "";
             const queryParam = whats ? `?u=${whats}` : "";
-            window.location.href = "https://pradodalapa-hue.github.io/JDPSistemasdonyburguresortriortyss688jfdssyiihfd/" + queryParam;
+            window.location.href = "https://pradodalapa-hue.github.io/JDPSistemas_diariortyss688jfdssyiihfd/" + queryParam;
         }
 
         function renderStatic() {
@@ -608,6 +590,7 @@
             };
         }
 
+        // DISPARO DE ERRO SE HOUVER QUEBRA DE INTEGRALIDADE
         function triggerFatalEngineError(valA, valB) {
             document.getElementById('error-log').innerText = `ALGORITMO A: ${valA} cents | ALGORITMO B: ${valB} cents | DIVERGÊNCIA: ${Math.abs(valA - valB)} cents`;
             document.getElementById('error-screen').style.display = 'flex';
@@ -629,8 +612,8 @@
         async function masterSpinProcess() {
             if(isSpinning) return;
             
-            if(!isFreeSpinsMode && user.moedas < bet) {
-                alert("Saldo insuficiente.");
+            if(!isFreeSpinsMode && (!user || user.donycoins < bet)) {
+                alert("Saldo de Moedas insuficiente.");
                 return;
             }
 
@@ -642,9 +625,9 @@
             document.querySelectorAll('.slot-box').forEach(el => el.classList.remove('winning-glow'));
             document.querySelectorAll('.reel-track').forEach(el => el.classList.remove('anticipation-glow'));
 
-            // 1. DÉBITO ATÔMICO
+            // 1. DÉBITO ATÔMICO DE MOEDAS (DONYCOINS) NO BANCO DE DADOS UNIFICADO
             if (!isFreeSpinsMode) {
-                await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(currentBalance => {
+                await db.ref(`lojas/${LOJA_ID}/usuarios/${user.id}/donycoins`).transaction(currentBalance => {
                     if (currentBalance === null) return 0;
                     const balanceCents = Math.round(currentBalance * 100);
                     const betCents = Math.round(bet * 100);
@@ -657,7 +640,7 @@
 
             // GERAÇÃO DA MATRIZ DE RESULTADOS
             let result;
-            const winSnap = await db.ref(`${TIGER_PATH}/win_mode`).once('value');
+            const winSnap = await db.ref(`lojas/${LOJA_ID}/win_mode`).once('value');
             const forceWin = winSnap.val() === true;
 
             if (forceWin) {
@@ -668,7 +651,7 @@
                     [0, 1, 2],
                     [3, 4, 5]
                 ];
-                await db.ref(`${TIGER_PATH}/win_mode`).set(false);
+                await db.ref(`lojas/${LOJA_ID}/win_mode`).set(false);
             } else {
                 const rand = Math.random() * 100;
                 if (rand < 10 && !isFreeSpinsMode) { // 10% Gatilho Real (3 Scatters)
@@ -775,7 +758,7 @@
         }
 
         // =====================================================================
-        // CONCILIAÇÃO FINAL DO MOTOR DO PIX
+        // CONCILIAÇÃO FINAL DO MOTOR DO PIX (DONYCOINS)
         // =====================================================================
         async function finalizeMaster(data, matrix) {
             lastMatrix = matrix;
@@ -825,9 +808,9 @@
                         masterSpinProcess();
                     }, 1500);
                 } else {
-                    // Fim do ciclo: Credita o acumulado de forma atômica no Firebase
+                    // Fim do ciclo: Credita o acumulado de forma atômica no Firebase (donycoins)
                     if (freeSpinsAccumulatedCents > 0) {
-                        await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(currentBalance => {
+                        await db.ref(`lojas/${LOJA_ID}/usuarios/${user.id}/donycoins`).transaction(currentBalance => {
                             if (currentBalance === null) return 0;
                             const balanceCents = Math.round(currentBalance * 100);
                             return (balanceCents + freeSpinsAccumulatedCents) / 100;
@@ -857,7 +840,8 @@
                     if(targetCell) targetCell.classList.add('winning-glow');
                 });
 
-                await db.ref(`${TIGER_PATH}/usuarios/${user.id}/moedas`).transaction(currentBalance => {
+                // Crédito de moedas nas missões diárias (donycoins)
+                await db.ref(`lojas/${LOJA_ID}/usuarios/${user.id}/donycoins`).transaction(currentBalance => {
                     if (currentBalance === null) return 0;
                     const balanceCents = Math.round(currentBalance * 100);
                     const winCents = Math.round(data.total * 100);
@@ -879,5 +863,3 @@
     </script>
 </body>
 </html>
-
-
