@@ -8,6 +8,10 @@
     <!-- ================================================================= -->
     <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
     <!-- ================================================================= -->
+    
+    <!-- ================================================================= -->
+    <!--  MÓDULO VIGIA CONTEXTUAL & AUTO-LOGIN UNIVERSAL JDP (0% ERROS)    -->
+    <!-- ================================================================= -->
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -22,12 +26,11 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
-            // Vigia Contextual Julia
+            // Vigia Contextual Julia (Silencioso por baixo do capô)
             const paramUser = (urlParams.get('user') || urlParams.get('nome') || urlParams.get('u') || "").toUpperCase().trim();
             const localUser = (localStorage.getItem('jdp_cliente_nome') || "").toUpperCase().trim();
 
             if (paramUser.includes("JULIA") || localUser.includes("JULIA")) {
-                alert("HELENA VIGIA: Ei, aqui é a Julia! Sincronizando dados no subsistema...");
                 localStorage.setItem('jdp_cliente_nome', 'JULIA (CONTA MONITORADA)');
                 localStorage.setItem('jdp_cliente_whatsapp', '5592900000000');
                 localStorage.setItem('jdp_cliente_endereco', 'ACESSO DE TESTE VIGIA - AM');
@@ -36,9 +39,38 @@
                     window.location.href = window.location.pathname;
                 }
             }
+
+            // PREVINE PISCADA
+            const whatsSalvo = urlParams.get('u') || localStorage.getItem('jdp_cliente_whatsapp');
+            if (whatsSalvo) {
+                document.documentElement.classList.add('session-active');
+            }
         })();
     </script>
     <!-- ================================================================= -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- COMPATIBILIDADE DOS MOTORES -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { mono: ['JetBrains Mono', 'monospace'] },
+                    colors: {
+                        slate: { 950: '#020617' },
+                        cyan: { 500: '#06b6d4' },
+                        yellow: { 300: '#fde047' }
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- BIBLIOTECAS DE ALTA PERFORMANCE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
